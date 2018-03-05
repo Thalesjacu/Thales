@@ -49,6 +49,19 @@ body {
         width: 100%;
     }
 }
+
+.button {
+    background-color: #555555;
+    border: none;
+    color: white;
+    padding: 10px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -62,14 +75,25 @@ body {
 </div>
 
 <div class="row">
-  <div class="column" style="background-color:#aaa;"><img src="termometro.jpg" alt="Mountain" style="width:100px"> </div>
-  <div class="column" style="background-color:#bbb;">Column</div>
-  <div class="column" style="background-color:#ccc;">Column</div>
+  <div class="column" style="background-color:rgb(255, 0, 10);"><img src="termometro.jpg" alt="termometro" style="width:100px">
+  <input type="button" class="button" value="Ler Temperatura">
+  </div>
+  <div class="column" style="background-color:rgb(0 , 50, 200)	;">
+  <input type="button" class="button" value="Ler Corrente">
+  </div>
+  <div class="column" style="background-color:rgb(255, 165, 0);">
+  <input type="button" class="button" value="Ler Tensão">
+  </div>
 </div>
 
 <div class="footer">
   <p>Footer</p>
 </div>
+
+
+
+
+
 
 </body>
 </html>
