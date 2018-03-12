@@ -84,8 +84,8 @@
 			});
             
             var url1 = 'http://35.199.76.183:3000/humidade';
-	angular.module('iot', []).controller(
-			'sensor',
+	angular.module('iot1', []).controller(
+			'sensor1',
 			function($scope, $http) {
 				$scope.GetData = function() {
 					$http.get(url1).then(function(response1) {
