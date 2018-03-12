@@ -83,6 +83,61 @@
 
 			});
             
+            var url1 = 'http://35.199.76.183:3000/humidade';
+	angular.module('iot1', []).controller(
+			'sensor1',
+			function($scope, $http) {
+				$scope.GetData = function() {
+					$http.get(url1).then(function(response1) {
+						$scope.sensor = response.data;
+						$scope.Plot(response.data);
+					});
+
+				};
+
+				$scope.SendData = function() {
+					var d1 = new Date();
+					var data1 = {
+						time : d.getFullYear() + "-"
+								+ ("00" + (d.getMonth() + 1)).slice(-2) + "-"
+								+ ("00" + (d.getDate())).slice(-2) + " "
+								+ d.toLocaleTimeString(),
+						valor1 : $scope.valor
+					};
+
+					$http.post(url1, data1).then(function(response1) {
+						$scope.showSuccess = true;
+						$scope.GetData();
+					}, function(response1) {
+						$scope.showError = true;
+					});
+				};
+
+				$scope.Plot = function(data1) {
+					var x1 = [], y1 = [];
+
+					data.forEach(function(item) {
+						x.push(item.time);
+						y.push(item.valor);
+					});
+
+					var charData1 = [ {
+						x1 : x1,
+						y1 : y1,
+						mode : 'lines+markers',
+						line : {
+							color : '#80CAF6'
+						}
+					} ];
+
+					var chart1 = document.getElementById('chart1');
+
+					Plotly.newPlot(chart1, charData1);
+				};
+
+			});
+            
+            
             
 </script>
   
@@ -138,13 +193,14 @@
 			</div>
 			<div class="col-sm-4">
             		 <div id="chart" class="responsive-plot"></div>
+                     <div id="chart1" class="responsive-plot"></div>
             </div>
             	
             <div class="col-sm-4">
             
 				<div class="form-group">
-					<label for="valor">Valor:</label> <input type="number"
-						class="form-control" name="valor" ng-model="valor"
+					<label for="valor1">Valor:</label> <input type="number"
+						class="form-control" name="valor1" ng-model="valor1"
 						placeholder="informe o valor" required />
 				</div>
 				<button type="button" class="btn btn-primary" ng-click="SendData()">Enviar</button>
