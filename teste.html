@@ -90,7 +90,7 @@
 				$scope.GetData = function() {
 					$http.get(url1).then(function(response1) {
 						$scope.sensor = response.data;
-						$scope.Plot1(response.data);
+						$scope.Plot(response.data);
 					});
 
 				};
@@ -98,7 +98,7 @@
 				$scope.SendData = function() {
 					var d1 = new Date();
 					var data1 = {
-						time1 : d.getFullYear() + "-"
+						time : d.getFullYear() + "-"
 								+ ("00" + (d.getMonth() + 1)).slice(-2) + "-"
 								+ ("00" + (d.getDate())).slice(-2) + " "
 								+ d.toLocaleTimeString(),
@@ -116,7 +116,7 @@
 				$scope.Plot = function(data1) {
 					var x1 = [], y1 = [];
 
-					data.forEach(function(item1) {
+					data.forEach(function(item) {
 						x.push(item.time);
 						y.push(item.valor);
 					});
@@ -145,7 +145,8 @@
   
 </head>
 
-<body ng-app="iot" ng-controller="sensor" ng-init="GetData()" ng-app="iot1" ng-controller="sensor1" ng-init="GetData1()">
+<body ng-app="iot" ng-controller="sensor" ng-init="GetData()">
+
 
 	<div class="container">
 		<h2 align=center>
@@ -192,8 +193,7 @@
 			</div>
 			<div class="col-sm-4">
             		 <div id="chart" class="responsive-plot"></div>
-                     <div id1="chart1" class="responsive-plot"></div>
-                     <div id="chart" class="responsive-plot"></div>
+                     <div id="chart1" class="responsive-plot"></div>
             </div>
             	
             <div class="col-sm-4">
@@ -203,13 +203,13 @@
 						class="form-control" name="valor1" ng-model="valor1"
 						placeholder="informe o valor" required />
 				</div>
-				<button type="button" class="btn btn-primary" ng-click="SendData1()">Enviar</button>
+				<button type="button" class="btn btn-primary" ng-click="SendData()">Enviar</button>
 				<p></p>
-				<div data-ng-show="showSuccess1" class="alert alert-success">
+				<div data-ng-show="showSuccess" class="alert alert-success">
 					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Enviado
 						com Sucesso!</strong>
 				</div>
-				<div data-ng-show="showError1" class="alert alert-danger">
+				<div data-ng-show="showError" class="alert alert-danger">
 					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Erro
 						ao Enviar!</strong>
 				</div>
@@ -217,16 +217,16 @@
 				<table class="table table-striped">
 					<thead class="thead-dark">
 						<tr>
-							<th>id1</th>
-							<th>time1</th>
-							<th>valor1</th>
+							<th>id</th>
+							<th>time</th>
+							<th>valor</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="s in sensor">
 							<td>{{s.id}}</td>
-							<td>{{s.time1}}</td>
-							<td>{{s.valor1}}</td>
+							<td>{{s.time}}</td>
+							<td>{{s.valor}}</td>
 						</tr>
 					</tbody>
 				</table>
