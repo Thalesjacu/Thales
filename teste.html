@@ -1,4 +1,5 @@
 
+
 <!-- Pós Graduação Internet das Coisas - CEFET-MG
 	Disciplina: Programação para Sistemas de Computação
 	Exemplo prático de Bootstrap - AngularJs - Rest - Plotly
@@ -37,39 +38,39 @@
 	var url1 = 'http://35.199.76.183:3000/temperatura';
 	angular.module('iot', []).controller(
 			'sensor',
-			function($scope, $http) {
-				$scope.GetData = function() {
-					$http.get(url1).then(function(response1) {
-						$scope.sensor = response.data;
-						$scope.Plot(response.data);
+			function($scope1, $http1) {
+				$scope1.GetData1 = function() {
+					$http1.get(url1).then(function(response1) {
+						$scope1.sensor1 = response1.data1;
+						$scope1.Plot1(response1.data1);
 					});
 
 				};
 
-				$scope.SendData = function() {
+				$scope1.SendData1 = function() {
 					var d1 = new Date1();
 					var data1 = {
 						time1 : d.getFullYear() + "-"
 								+ ("00" + (d.getMonth() + 1)).slice(-2) + "-"
 								+ ("00" + (d.getDate())).slice(-2) + " "
 								+ d.toLocaleTimeString(),
-						valor1 : $scope.valor
+						valor1 : $scope1.valor1
 					};
 
-					$http.post(url1, data1).then(function(response1) {
-						$scope.showSuccess = true;
-						$scope.GetData();
+					$http1.post(url1, data1).then(function(response1) {
+						$scope1.showSuccess = true;
+						$scope1.GetData();
 					}, function(response1) {
 						$scope.showError = true;
 					});
 				};
 
-				$scope.Plot = function(data1) {
+				$scope1.Plot = function(data1) {
 					var x1 = [], y1 = [];
 
 					data.forEach(function(item1) {
-						x.push(item.time);
-						y.push(item.valor);
+						x.push(item1.time1);
+						y.push(item1.valor1);
 					});
 
 					var charData1 = [ {
