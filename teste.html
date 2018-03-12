@@ -83,33 +83,33 @@
 
 			});
             
-            var url1 = 'http://35.199.76.183:3000/umidade';
+            var url1 = 'http://35.199.76.183:3000/humidade';
 	angular.module('iot1', []).controller(
 			'sensor1',
 			function($scope, $http) {
-				$scope.GetData1 = function() {
+				$scope.GetData = function() {
 					$http.get(url1).then(function(response1) {
-						$scope.sensor1 = response.data1;
-						$scope.Plot1(response.data1);
+						$scope.sensor = response.data;
+						$scope.Plot1(response.data);
 					});
 
 				};
 
-				$scope.SendData1 = function() {
+				$scope.SendData = function() {
 					var d1 = new Date();
 					var data1 = {
-						time : d.getFullYear() + "-"
+						time1 : d.getFullYear() + "-"
 								+ ("00" + (d.getMonth() + 1)).slice(-2) + "-"
 								+ ("00" + (d.getDate())).slice(-2) + " "
 								+ d.toLocaleTimeString(),
-						valor1 : $scope.valor1
+						valor1 : $scope.valor
 					};
 
 					$http.post(url1, data1).then(function(response1) {
-						$scope.showSuccess1 = true;
-						$scope.GetData1();
+						$scope.showSuccess = true;
+						$scope.GetData();
 					}, function(response1) {
-						$scope.showError1 = true;
+						$scope.showError = true;
 					});
 				};
 
@@ -117,8 +117,8 @@
 					var x1 = [], y1 = [];
 
 					data.forEach(function(item1) {
-						x.push(item.time1);
-						y.push(item.valor1);
+						x.push(item.time);
+						y.push(item.valor);
 					});
 
 					var charData1 = [ {
@@ -145,8 +145,7 @@
   
 </head>
 
-<body ng-app="iot" ng-controller="sensor" ng-init="GetData()">
-<body ng-app="iot1" ng-controller="sensor1" ng-init="GetData1()">
+<body ng-app="iot" ng-controller="sensor" ng-init="GetData()" ng-app="iot1" ng-controller="sensor1" ng-init="GetData1()">
 
 	<div class="container">
 		<h2 align=center>
@@ -193,8 +192,8 @@
 			</div>
 			<div class="col-sm-4">
             		 <div id="chart" class="responsive-plot"></div>
-                     <div id="chart1" class="responsive-plot"></div>
-                     	 <div id="chart" class="responsive-plot"></div>
+                     <div id1="chart1" class="responsive-plot"></div>
+                     <div id="chart" class="responsive-plot"></div>
             </div>
             	
             <div class="col-sm-4">
@@ -225,7 +224,7 @@
 					</thead>
 					<tbody>
 						<tr ng-repeat="s in sensor">
-							<td>{{s.id1}}</td>
+							<td>{{s.id}}</td>
 							<td>{{s.time1}}</td>
 							<td>{{s.valor1}}</td>
 						</tr>
