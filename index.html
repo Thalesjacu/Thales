@@ -98,10 +98,9 @@ body {
 <body>
 
 <script>
-var temp = 30;
-var corrente = 'Curto Circuito';
+var temp = 28;
+var umidade = 'Umidade';
 var tensao = 'Sobre Tensão';
-
 </script>
 
 
@@ -115,22 +114,25 @@ var tensao = 'Sobre Tensão';
   <div class="column" style="background-color:rgb(255, 0, 10);">
   <div class="container">
   <img src="/images/termometro.jpg" alt="termometro" width="50" height="40">
-  <input type="btn" class="btn" onclick="alert(temp)"value="Temperatura">
-
+  <input type="btn" class="btn" onclick="alert(temp++)"value="Temperatura">
   </div>
   
   </div>
   <div class="column" style="background-color:rgb(0 , 50, 200)	;">
-  <input type="button" onclick="alert(corrente)"value="Curto Circuito">
+  
+   <img src="/images/umidade.jpg" alt="umidade" width="50" height="40">
+  <input type="btn" class="btn" onclick="alert(umidade)"value="Umidade">
   </div>
   <div class="column" style="background-color:rgb(255, 165, 0);">
-   <input type="button" onclick="alert(tensao)"value="Tensao">
+     <img src="/images/tensao.jpg" alt="tensao" width="50" height="40">
+  <input type="btn" class="btn" onclick="alert(tensao)"value="tensao">
   </div>
 </div>
 
 
 <div class="footer">
   <p>Footer</p>
+   
 </div>
 
 
