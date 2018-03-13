@@ -140,13 +140,35 @@
             
             
 </script>
-  
+   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+      html { height: 100% }
+      body { height: 100%; margin: 0; padding: 0 }
+      #map_canvas { height: 100% }
+    </style>
+    <script type="text/javascript">
+      src="https://maps.googleapis.com/maps/api/js?key=coloque_sua_chave_aqui” >
+    </script>
+    <script type="text/javascript">
+      function initialize() {
+        var mapOptions = {
+          center: new google.maps.LatLng(-34.397, 150.644),
+          zoom: 8,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("map_canvas"),
+            mapOptions);
+      }
+    </script>
   
   
 </head>
 
 <body ng-app="iot" ng-controller="sensor" ng-init="GetData()">
 
+ <div onload="initialize()">
+    <div id="map_canvas" style="width:100%; height:100%"></div>
+    </div>
 
 	<div class="container">
 		<h2 align=center>
@@ -213,54 +235,7 @@ Plotly.newPlot('myDiv', CharData);
           
                      
                      <!-- localidadeeee -->
-                     
-                     <div id="window_1552461" class="window-container">
-  <div title="Channel Location" class="window-header">
-    <div class="window-title">Channel Location</div>
-    <div id="controls" class="window-controls">
-      <div id="iframe_modal_open_1552461" title="Channel Location IFrame" class="window-icon" data-toggle="modal" data-target="#window_iframe_modal_1552461"><i class="fa fa-comment-o fa-lg"></i></div>
-      <div style="padding-top: 2px;">
-        <a class="chart-header" href="/channels/104729/maps/channel_show" target="_blank">
-           <i class="fa fa-external-link fa-lg"></i>
-</a>      </div>
-    </div>
-  </div>
-  <div class="window-content">
-    <iframe id="window_iframe_1552461" class="window-iframe" src="/channels/104729/maps/channel_show"></iframe>
-  </div>
-</div>
-
-<div id="window_iframe_modal_1552461" class="modal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button id="iframe_modal_close_1552461" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Channel Location&nbsp;IFrame</h4>
-      </div>
-      <div class="modal-body">
-        <div id="iframe_modal_content_body_1552461" >
-          <pre id="iframe_modal_pre_1552461">&lt;iframe width=&quot;450&quot; height=&quot;260&quot; style=&quot;border: 1px solid #cccccc;&quot; src=&quot;https://thingspeak.com/channels/104729/maps/channel_show&quot;&gt;&lt;/iframe&gt;</pre>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-    </div>
-
-  </div>
-</div>
-<script type="text/javascript">
-  $(document).on('page:load ready', function (){
-    window.channel = ThingSpeak.Channel.init({"public_view":true,"current_user_owns":null,"windows":[{"id":806290,"channel_id":104729,"position":1,"created_at":"2016-04-01T03:07:41Z","updated_at":"2017-10-06T22:41:05Z","content_type":"chart","public_flag":false,"content_id":1,"options":"bgcolor=%23ffffff\u0026color=%23d62020\u0026dynamic=true\u0026max=60\u0026min=10\u0026results=60\u0026timescale=60\u0026title=Temperatura+quarto\u0026type=line","options_json":"{\"bgcolor\":\"#ffffff\",\"color\":\"#d62020\",\"dynamic\":\"true\",\"max\":\"60\",\"min\":\"10\",\"results\":\"60\",\"timescale\":\"60\",\"title\":\"Temperatura quarto\",\"type\":\"line\"}","iframe_html":"\u003Ciframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/104729/charts/1?bgcolor=%23ffffff\u0026color=%23d62020\u0026dynamic=true\u0026max=60\u0026min=10\u0026results=60\u0026timescale=60\u0026title=Temperatura+quarto\u0026type=line\"\u003E\u003C/iframe\u003E","iframe_src":"/channels/104729/charts/1?bgcolor=%23ffffff\u0026color=%23d62020\u0026dynamic=true\u0026max=60\u0026min=10\u0026results=60\u0026timescale=60\u0026title=Temperatura+quarto\u0026type=line","preview_image_path":"/assets/add_visualization_chart-88c1b78fb0c7954b4fb243af600dde64.svg","url":"/channels/104729/windows/806290","title":"Field Chart"},{"id":806291,"channel_id":104729,"position":1,"created_at":"2016-04-01T03:07:41Z","updated_at":"2016-04-01T04:30:28Z","content_type":"chart","public_flag":true,"content_id":1,"options":"bgcolor=%23ffffff\u0026color=%23d62020\u0026dynamic=true\u0026max=1000\u0026min=0\u0026results=60\u0026timescale=10\u0026type=line","options_json":"{\"bgcolor\":\"#ffffff\",\"color\":\"#d62020\",\"dynamic\":\"true\",\"max\":\"1000\",\"min\":\"0\",\"results\":\"60\",\"timescale\":\"10\",\"type\":\"line\"}","iframe_html":"\u003Ciframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/104729/charts/1?bgcolor=%23ffffff\u0026color=%23d62020\u0026dynamic=true\u0026max=1000\u0026min=0\u0026results=60\u0026timescale=10\u0026type=line\"\u003E\u003C/iframe\u003E","iframe_src":"/channels/104729/charts/1?bgcolor=%23ffffff\u0026color=%23d62020\u0026dynamic=true\u0026max=1000\u0026min=0\u0026results=60\u0026timescale=10\u0026type=line","preview_image_path":"/assets/add_visualization_chart-88c1b78fb0c7954b4fb243af600dde64.svg","url":"/channels/104729/windows/806291","title":"Field Chart"},{"id":845094,"channel_id":104729,"position":2,"created_at":"2016-04-23T01:27:42Z","updated_at":"2016-04-23T01:27:42Z","content_type":"status","public_flag":true,"content_id":null,"options":null,"options_json":"{}","iframe_html":"\u003Ciframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/104729/status/recent\"\u003E\u003C/iframe\u003E","iframe_src":"/channels/104729/status/recent","preview_image_path":"/assets/add_visualization_status-3d875961914678146586d1fdaae1ff17.svg","url":"/channels/104729/windows/845094","title":"Channel Status Updates"},{"id":1552460,"channel_id":104729,"position":2,"created_at":"2017-02-26T12:31:52Z","updated_at":"2017-02-26T12:31:52Z","content_type":"location","public_flag":false,"content_id":null,"options":null,"options_json":"{}","iframe_html":"\u003Ciframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/104729/maps/channel_show\"\u003E\u003C/iframe\u003E","iframe_src":"/channels/104729/maps/channel_show","preview_image_path":"/assets/add_visualization_location-2390c9876556a0155f4f09e9897bd717.svg","url":"/channels/104729/windows/1552460","title":"Channel Location"},{"id":1862942,"channel_id":104729,"position":3,"created_at":"2017-06-17T20:04:58Z","updated_at":"2017-06-17T20:04:58Z","content_type":"plugin","public_flag":false,"content_id":62310,"options":null,"options_json":"{}","iframe_html":"\u003Ciframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/apps/plugins/62310\"\u003E\u003C/iframe\u003E","iframe_src":"/apps/plugins/62310","preview_image_path":"/assets/add_visualization_plugin-34202e0348d175aa2c626d82c345a1d1.svg","url":"/channels/104729/windows/1862942","title":"Google Gauge 3"},{"id":1552461,"channel_id":104729,"position":3,"created_at":"2017-02-26T12:31:52Z","updated_at":"2017-02-26T12:31:52Z","content_type":"location","public_flag":true,"content_id":null,"options":null,"options_json":"{}","iframe_html":"\u003Ciframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/104729/maps/channel_show\"\u003E\u003C/iframe\u003E","iframe_src":"/channels/104729/maps/channel_show","preview_image_path":"/assets/add_visualization_location-2390c9876556a0155f4f09e9897bd717.svg","url":"/channels/104729/windows/1552461","title":"Channel Location"}],"channel":{"id":104729,"user_id":69728,"name":"PFC Temperatura","description":"temperatura do quarto","latitude":"38.8009792","longitude":"-9.1624423","field1":"Temperatura","field2":null,"field3":null,"field4":null,"field5":null,"field6":null,"field7":null,"field8":null,"scale1":null,"scale2":null,"scale3":null,"scale4":null,"scale5":null,"scale6":null,"scale7":null,"scale8":null,"created_at":"2016-04-01T03:07:41Z","updated_at":"2018-03-13T18:40:18Z","elevation":"","last_entry_id":2168587,"public_flag":true,"options1":null,"options2":null,"options3":null,"options4":null,"options5":null,"options6":null,"options7":null,"options8":null,"social":false,"slug":null,"status":null,"url":"94.62.128.173:4053","video_id":"B8qUv4zEz44","video_type":"youtube","clearing":false,"ranking":100,"user_agent":"tslib-arduino/1.0 (arduino uno or mega)","realtime_io_serial_number":null,"metadata":"","last_write_at":"2018-03-13T18:40:19Z","batch_updated_at":null,"show_location":true,"show_video":false,"show_status":true,"license_id":0,"is_updating":null,"is_privately_shared_flag":false}});
-  })
-</script>
-
-                     
-                 <!--    <script type="text/javascript">{"coord":{"lon":-42.64,"lat":-21.53},"weather":[{"id":801,"main":"Clouds","description":"few clouds","icon":"02d"}],"base":"stations","main":{"temp":304.828,"pressure":978.61,"humidity":58,"temp_min":304.828,"temp_max":304.828,"sea_level":1022.13,"grnd_level":978.61},"wind":{"speed":2.01,"deg":144.5},"clouds":{"all":12},"dt":1520966426,"sys":{"message":0.0066,"country":"BR","sunrise":1520931130,"sunset":1520975222},"id":3458632,"name":"Leopoldina","cod":200}
-                     
-                     </script> -->
+                    
                             
                      
                      
