@@ -194,7 +194,25 @@
 			<div class="col-sm-4">
             		 <div id="chart" class="responsive-plot"></div>
                      <br>Exemplo Bootstrap - AngularJs - Rest - Plotly
-                     <div id="chart1" class="responsive-plot"></div>
+                     
+                     <div id="myDiv"><!-- Plotly chart will be drawn inside this DIV --></div>
+  <script>
+    <!-- JAVASCRIPT CODE GOES HERE -->
+  </script>
+  
+   <script>
+  var data = [{
+  x: [x],
+  y: [y],
+  type: 'bar'
+}];
+
+Plotly.newPlot('myDiv', data);
+</script>
+                     
+                     
+                     
+                     
             </div>
             	
             <div class="col-sm-4">
