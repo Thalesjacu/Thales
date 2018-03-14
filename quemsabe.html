@@ -33,17 +33,19 @@
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 <script>
-	var url = 'http://api.openweathermap.org/data/2.5/weather?q=Leopoldina&APPID=9e2818e4d3e02fd2c519fa8019721fb1&units=metric';
+	var url = 'http://api.openweathermap.org/data/2.5/weather?q=Leopoldina&APPID=9e2818e4d3e02fd2c519fa8019721fb1&units=metric', url1='http://35.199.76.183:3000/temperatura';
 	angular.module('iot', []).controller(
 			'sensor',
 			function($scope, $http) {
 				$scope.GetData = function() {
 					$http.get(url).then(function(response) {
 						$scope.sensor = response.data;
-                        $scope.sensor1 = response.data;
-                  		$scope.Plot(response.data);
-                        $scope.Plot2(response.data);
-					});
+                   		$scope.Plot(response.data);
+                      	});
+                    $http.get(url1).then(function(response1) {
+						$scope.sensor = response.data;
+                   		$scope.Plot1(response.data);
+                      	});
 
 				};
 
@@ -59,6 +61,13 @@
 					};
 
 					$http.post(url, data).then(function(response) {
+						$scope.showSuccess = true;
+						$scope.GetData();
+					}, function(response) {
+						$scope.showError = true;
+					});
+                    
+                    $http.post(url1, data1).then(function(response) {
 						$scope.showSuccess = true;
 						$scope.GetData();
 					}, function(response) {
@@ -83,18 +92,13 @@
 							color : '#80CAF6'
 						}
 					} ];
-
-					var chart = document.getElementById('chart');
-
-					Plotly.newPlot(chart, charData);
-				};
-                
-                $scope.Plot1 = function(data) {
-					var x1 = [], y1 = [];
+                    
+                    $scope.Plot = function(data1) {
+					var x = [], y = [];
 
 					data.forEach(function(item) {
 						x.push(item.time);
-						y.push(item.humidity);
+						y.push(item.temp);
 					});
                     
 
@@ -107,11 +111,13 @@
 						}
 					} ];
 
-					var chart1 = document.getElementById('chart1');
+					var chart = document.getElementById('chart');
+                    var chart1 = document.getElementById('chart1');
 
 					Plotly.newPlot(chart1, charData1);
 				};
-
+                
+                
 			});
 </script>
 </head>
@@ -160,6 +166,8 @@
 				</table>
 			</div>
 			<div class="col-sm-8">
+            <div id="chart" class="responsive-plot"></div>
+            <div id="chart1" class="responsive-plot"></div>
              <div id="myDiv"><!-- Plotly chart will be drawn inside this DIV --></div>
             	 <script>
    
@@ -169,7 +177,7 @@
   type: 'bar'
 }];
 
-Plotly.newPlot('myDiv', CharData);
+Plotly.newPlot('myDiv', CharData1);
 </script>
             
             
