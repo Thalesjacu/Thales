@@ -1,12 +1,11 @@
 
-<!-- Pós Graduação Internet das Coisas - CEFET-MG
-	Disciplina: Programação para Sistemas de Computação
+<!-- 
 	Exemplo prático de Bootstrap - AngularJs - Rest - Plotly
  -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<title>IoT - CEFET-MG</title>
+<title>IoT - Thales</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -101,8 +100,8 @@
 		<div class="row">
 			<div class="col-sm-4">
 				<div class="form-group">
-					<label for="weather.main.temp">Valor:</label> <input type="number"
-						class="form-control" name="weather.main.temp" ng-model="weather.main.temp"
+					<label for="temp">Valor:</label> <input type="number"
+						class="form-control" name="temp" ng-model="temp"
 						placeholder="informe o valor" required />
 				</div>
 				<button type="button" class="btn btn-primary" ng-click="SendData()">Enviar</button>
@@ -121,14 +120,14 @@
 						<tr>
 							<th>id</th>
 							<th>time</th>
-							<th>valor</th>
+							<th>temp</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="s in sensor">
 							<td>{{s._id}}</td>
 							<td>{{s.time}}</td>
-							<td>{{s.valor}}</td>
+							<td>{{s.temp}}</td>
 						</tr>
 					</tbody>
 				</table>
