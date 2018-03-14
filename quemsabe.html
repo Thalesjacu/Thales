@@ -160,6 +160,19 @@
 				</table>
 			</div>
 			<div class="col-sm-8">
+             <div id="myDiv"><!-- Plotly chart will be drawn inside this DIV --></div>
+            	 <script>
+   
+  var CharData1 = [{
+  x: ['temperatura', 'umidade'],
+  y: [temp, humidity],
+  type: 'bar'
+}];
+
+Plotly.newPlot('myDiv', CharData);
+</script>
+            
+            
 				<div id="chart" class="responsive-plot"></div>
                 <div id="chart1" class="responsive-plot"></div>
 			</div>
