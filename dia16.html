@@ -104,10 +104,11 @@ var apiKey=' &APPID=9e2818e4d3e02fd2c519fa8019721fb1';
 var units ='&units=metric';
 var input;
 	function setup(){
-    createCanvas(200,200);
+    
+    createCanvas(20,20);
     var button = select('#submit');
     button.mousePressed(weatherAsk);
-   	input = select('#city');
+   	input = select('#cidade');
     }
     
     function weatherAsk(){
@@ -121,8 +122,7 @@ var input;
     function draw(){
    
   
-    var temp = weather.main.temp;
-    var humidity=weather.main.humidity;
+    
     }
 
 </script>
@@ -175,15 +175,18 @@ var input;
 				</table>
 			</div>
 			<div class="col-sm-8">
-            <p>
-Cidade: <input id ="cidade" value="Leopoldina"> </input>
-<button id="submit">submit</button>
-<input type="btn" class="btn" onclick="alert(weather.main.temp)"value="Temperatura">
-</p>
+           
 				<div id="chart" class="responsive-plot"></div>
 			</div>
 		</div>
 	</div>
+    
+     <p>
+Cidade: <input id ="cidade" value="Leopoldina">
+<br/>
+<button id="submit">submit</button>
+<input type="btn" class="btn" onclick="alert(weather.main.temp)"value="Temperatura">
+</p>
 </body>
 </html>
 
