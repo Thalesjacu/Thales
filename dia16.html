@@ -109,8 +109,8 @@ var input;
     loadJSON(url1, gotData);
     
     }
-    function gotData(data1){
-    weather=data1;
+    function gotData(data){
+    weather=data;
     }
     function draw(){
    
@@ -172,7 +172,7 @@ var input;
             <p>
 Cidade: <input id ="cidade" value="Leopoldina"> </input>
 <button id="submit">submit</button>
-<input type="btn" class="btn" onclick="alert(temp)"value="Temperatura">
+<input type="btn" class="btn" onclick="alert(weather.main.temp)"value="Temperatura">
 </p>
 				<div id="chart" class="responsive-plot"></div>
 			</div>
