@@ -1,11 +1,21 @@
+
+<!-- 
+	Exemplo prático de Bootstrap - AngularJs - Rest - Plotly
+ -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <!-- AnglularJs -->
+<title>IoT - Thales</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src ="libraries/p5.js" type="text/javascript"> </script>
+<script src ="libraries/p5.dom.js" type="text/javascript"> </script>
+<script src ="libraries/p5.sound.js" type="text/javascript"> </script>
+
+<script src ="sketch.js" type="text/javascript"> </script>
+
+<!-- AnglularJs -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
 
@@ -28,8 +38,42 @@
 <!-- Plotly -->
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
+
+
 <script>
-	var url = 'http://35.199.76.183:3000/temperatura';
+var weather;
+
+var api='http://api.openweathermap.org/data/2.5/weather?q=';
+
+var apiKey=' &APPID=9e2818e4d3e02fd2c519fa8019721fb1';
+var units ='&units=metric';
+var input;
+	function setup(){
+    
+    createCanvas(20,20);
+    var button = select('#submit');
+    button.mousePressed(weatherAsk);
+   	input = select('#cidade');
+    }
+    
+    function weatherAsk(){
+     var url1 = api+input.value() + apiKey+units;
+    loadJSON(url1, gotData);
+    
+    }
+    function gotData(data1){
+    weather=data1;
+    }
+    function draw(){
+   
+       
+    }
+
+
+</script>
+
+<script>
+	 	var url = url1;
 	angular.module('iot', []).controller(
 			'sensor',
 			function($scope, $http) {
@@ -48,7 +92,7 @@
 								+ ("00" + (d.getMonth() + 1)).slice(-2) + "-"
 								+ ("00" + (d.getDate())).slice(-2) + " "
 								+ d.toLocaleTimeString(),
-						valor : $scope.valor
+						temp : $scope.weather.main.temp
 					};
 
 					$http.post(url, data).then(function(response) {
@@ -64,7 +108,7 @@
 
 					data.forEach(function(item) {
 						x.push(item.time);
-						y.push(item.valor);
+						y.push(item.temp);
 					});
 
 					var charData = [ {
@@ -82,82 +126,8 @@
 				};
 
 			});
-            
-            var url1 = 'http://35.199.76.183:3000/humidade';
-	angular.module('iot1', []).controller(
-			'sensor1',
-			function($scope, $http) {
-				$scope.GetData = function() {
-					$http.get(url1).then(function(response1) {
-						$scope.sensor = response.data;
-						$scope.Plot(response.data);
-					});
-
-				};
-
-				$scope.SendData = function() {
-					var d1 = new Date();
-					var data1 = {
-						time : d.getFullYear() + "-"
-								+ ("00" + (d.getMonth() + 1)).slice(-2) + "-"
-								+ ("00" + (d.getDate())).slice(-2) + " "
-								+ d.toLocaleTimeString(),
-						valor1 : $scope.valor
-					};
-
-					$http.post(url1, data1).then(function(response1) {
-						$scope.showSuccess = true;
-						$scope.GetData();
-					}, function(response1) {
-						$scope.showError = true;
-					});
-				};
-
-				$scope.Plot = function(data1) {
-					var x1 = [], y1 = [];
-
-					data.forEach(function(item) {
-						x.push(item.time);
-						y.push(item.valor);
-					});
-
-					var charData1 = [ {
-						x1 : x1,
-						y1 : y1,
-						mode : 'lines+markers',
-						line : {
-							color : '#80CAF6'
-						}
-					} ];
-
-					var chart1 = document.getElementById('chart1');
-
-					Plotly.newPlot(chart1, charData1);
-				};
-
-			});
-            
-            
-            
-            
 </script>
 
-<script>
-		var weather;
-        function setup(){
-        LoadJSON('http://api.openweathermap.org/data/2.5/weather?q=Leopoldina&APPID=9e2818e4d3e02fd2c519fa8019721fb1',gotData);
-        }
-        function gotData(data){
-        			weather=data;
-                    }
-         function draw(){
-         temperatura=temp;
-         temperatura1=weather.main.temp;
-         humidade=humidity;
-         humidade1=weather.main.humidity;
-         }
-</script>
-  
 </head>
 
 <body ng-app="iot" ng-controller="sensor" ng-init="GetData()">
@@ -171,10 +141,9 @@
 		</h2>
 		<div class="row">
 			<div class="col-sm-4">
-           
 				<div class="form-group">
-					<label for="valor">Valor:</label> <input type="number"
-						class="form-control" name="valor" ng-model="valor"
+					<label for="temp">Valor:</label> <input type="number"
+						class="form-control" name="temp" ng-model="temp"
 						placeholder="informe o valor" required />
 				</div>
 				<button type="button" class="btn btn-primary" ng-click="SendData()">Enviar</button>
@@ -193,93 +162,37 @@
 						<tr>
 							<th>id</th>
 							<th>time</th>
-							<th>valor</th>
+							<th>temp</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="s in sensor">
-							<td>{{s.id}}</td>
+							<td>{{s._id}}</td>
 							<td>{{s.time}}</td>
-							<td>{{s.valor}}</td>
+							<td>{{s.temp}}</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
-			<div class="col-sm-4">
-            		 <div id="chart" class="responsive-plot"></div>
-                     <br>Exemplo Bootstrap - AngularJs - Rest - Plotly
-                     
+			<div class="col-sm-8">
+           
+				<div id="chart" class="responsive-plot"></div>
+                <p>
+Cidade:<input id ="cidade" value="Leopoldina">
+<br/>
+<button id="submit">submit</button>
+<input type="btn" class="btn" onclick="alert(weather.main.temp)"value="Temperatura">
+
+</p>
+
                      <div id="myDiv"><!-- Plotly chart will be drawn inside this DIV --></div>
-  
-   <script>
-   $scope.Plot = function(data) {
-					var x = [], y = [];
 
-					data.forEach(function(weather) {
-						x.push(weather.main.temp);
-						y.push(weather.main.humidity);
-					});
 
-					var charData = [ {
-						x : x,
-						y : y,
-						mode : 'lines+markers',
-						line : {
-							color : '#80CAF6'
-						}
-					} ];
-
-var chart = document.getElementById('chart');
-
-					Plotly.newPlot(chart, charData);
-				};
-</script>
-          
-                     
-                     <!-- localidadeeee -->
-                    
-                            
-                     
-                     
-                     
-            </div>
-            	
-            <div class="col-sm-4">
-            
-				<div class="form-group">
-					<label for="valor1">Valor:</label> <input type="number"
-						class="form-control" name="valor1" ng-model="valor1"
-						placeholder="informe o valor" required />
-				</div>
-				<button type="button" class="btn btn-primary" ng-click="SendData()">Enviar</button>
-				<p></p>
-				<div data-ng-show="showSuccess" class="alert alert-success">
-					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Enviado
-						com Sucesso!</strong>
-				</div>
-				<div data-ng-show="showError" class="alert alert-danger">
-					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Erro
-						ao Enviar!</strong>
-				</div>
-				<p></p>
-				<table class="table table-striped">
-					<thead class="thead-dark">
-						<tr>
-							<th>id</th>
-							<th>time</th>
-							<th>valor</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="s in sensor">
-							<td>{{s.id}}</td>
-							<td>{{s.time}}</td>
-							<td>{{s.valor}}</td>
-						</tr>
-					</tbody>
-				</table>
 			</div>
 		</div>
 	</div>
+    
+     
 </body>
 </html>
+
