@@ -1,19 +1,14 @@
 
-<!-- 
+<!-- Pós Graduação Internet das Coisas - CEFET-MG
+	Disciplina: Programação para Sistemas de Computação
 	Exemplo prático de Bootstrap - AngularJs - Rest - Plotly
  -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<title>IoT - Thales</title>
+<title>IoT - CEFET-MG</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<script src ="libraries/p5.js" type="text/javascript"> </script>
-<script src ="libraries/p5.dom.js" type="text/javascript"> </script>
-<script src ="libraries/p5.sound.js" type="text/javascript"> </script>
-
-<script src ="sketch.js" type="text/javascript"> </script>
 
 <!-- AnglularJs -->
 <script
@@ -39,30 +34,12 @@
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 <script>
-			var api='http://api.openweathermap.org/data/2.5/weather?q=';
-
-			var apiKey=' &APPID=9e2818e4d3e02fd2c519fa8019721fb1';
-			var units ='&units=metric';
-			var input;			
-	 	function setup(){
-    
-    var button = select('#submit');
-    button.mousePressed(weatherAsk);
-   	input = select('#cidade');
-    }
- 
-    
-    function weatherAsk(){
-     var url = api+input.value() + apiKey+units;
-        
-    }
+	var url = 'http://api.openweathermap.org/data/2.5/weather?q=Leopoldina&APPID=9e2818e4d3e02fd2c519fa8019721fb1&units=metric';
 	angular.module('iot', []).controller(
 			'sensor',
 			function($scope, $http) {
 				$scope.GetData = function() {
-					$http.get(url).then(function(response) 
-
-					{
+					$http.get(url).then(function(response) {
 						$scope.sensor = response.data;
 						$scope.Plot(response.data);
 					});
@@ -76,7 +53,8 @@
 								+ ("00" + (d.getMonth() + 1)).slice(-2) + "-"
 								+ ("00" + (d.getDate())).slice(-2) + " "
 								+ d.toLocaleTimeString(),
-						valor : $scope.valor
+						valor : $scope.valor,
+						temp : $scope.weather.main.temp
 					};
 
 					$http.post(url, data).then(function(response) {
@@ -110,15 +88,10 @@
 				};
 
 			});
-            
 </script>
-
-
-
 </head>
 
 <body ng-app="iot" ng-controller="sensor" ng-init="GetData()">
-
 	<div class="container">
 		<h2 align=center>
 			<img
@@ -149,31 +122,22 @@
 						<tr>
 							<th>id</th>
 							<th>time</th>
-							<th>temp</th>
+							<th>valor</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="s in sensor">
-							<td>{{s._id}}</td>
+							<td>{{s.id}}</td>
 							<td>{{s.time}}</td>
-							<td>{{s.temp}}</td>
+							<td>{{s.valor}}</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 			<div class="col-sm-8">
-           
 				<div id="chart" class="responsive-plot"></div>
 			</div>
 		</div>
 	</div>
-    
-     <p>
-Cidade: <input id ="cidade" value="Leopoldina">
-<br/>
-<button id="submit">submit</button>
-<input type="btn" class="btn" onclick="alert(weather.main.temp)"value="Temperatura">
-</p>
 </body>
 </html>
-
