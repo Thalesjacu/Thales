@@ -1,60 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <title>CSS Template</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<!-- AnglularJs -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
-
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
-<!-- jQuery library -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-<!-- Popper JS -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-
-<!-- Latest compiled JavaScript -->
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
-<!-- Plotly -->
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-
-
-<script>
-	var url = 'http://api.openweathermap.org/data/2.5/weather?q=Leopoldina&APPID=9e2818e4d3e02fd2c519fa8019721fb1&units=metric';
-	angular.module('iot', []).controller(
-			'sensor',
-			function($scope, $http) {
-				$scope.GetData = function() {
-					$http.get(url).then(function(response) {
-						$scope.sensor = response.data;
-						$scope.Plot(response.data);
-					});
-
-				};
-
-				$scope.SendData = function() {
-					var d = new Date();
-					var data = {
-						
-						temp : $scope.weather.main.temp
-					};
-
-					
-				});
-</script>
-
-<script>
-
 <style>
 * {
     box-sizing: border-box;
@@ -145,13 +95,86 @@ body {
     color: white;
 }
 </style>
+
+
+<!-- AnglularJs -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<!-- Plotly -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<script>
+	var url = 'http://api.openweathermap.org/data/2.5/weather?q=Leopoldina&APPID=9e2818e4d3e02fd2c519fa8019721fb1&units=metric';
+	angular.module('iot', []).controller(
+			'sensor',
+			function($scope, $http) {
+				$scope.GetData = function() {
+					$http.get(url).then(function(response) {
+						$scope.sensor = response.data;
+						$scope.Plot(response.data);
+					});
+
+				};
+
+				$scope.SendData = function() {
+					var d = new Date();
+					var data = {
+						time : d.getFullYear() + "-"
+								+ ("00" + (d.getMonth() + 1)).slice(-2) + "-"
+								+ ("00" + (d.getDate())).slice(-2) + " "
+								+ d.toLocaleTimeString(),
+						temp : $scope.weather.main.temp
+					};
+
+					$http.post(url, data).then(function(response) {
+						$scope.showSuccess = true;
+						$scope.GetData();
+					}, function(response) {
+						$scope.showError = true;
+					});
+				};
+
+				$scope.Plot = function(data) {
+					var x = [], y = [];
+
+					data.forEach(function(item) {
+						x.push(item.time);
+						y.push(item.temp);
+					});
+
+					
+
+					var chart = document.getElementById('chart');
+
+					Plotly.newPlot(chart, charData);
+				};
+
+			});
+</script>
 </head>
-<body>
+<body ng-app="iot" ng-controller="sensor" ng-init="GetData()">
 
 <script>
 
 var umidade = 'Umidade';
-var tensao = 'Sobre Tensão';
+var tensao = 'Sobre Tensao';
 </script>
 
 
