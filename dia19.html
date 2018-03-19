@@ -1,0 +1,140 @@
+
+<!-- 
+	Exemplo prático de Bootstrap - AngularJs - Rest - Plotly
+ -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<title>IoT - Thales</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- AnglularJs -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<!-- Plotly -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+
+
+
+
+<script>
+var url ='http://api.openweathermap.org/data/2.5/weather?q=Leopoldina&APPID=9e2818e4d3e02fd2c519fa8019721fb1&units=metric';
+var weather;
+
+var api='http://api.openweathermap.org/data/2.5/weather?q=';
+
+var apiKey=' &APPID=9e2818e4d3e02fd2c519fa8019721fb1';
+var units ='&units=metric';
+var input;
+	function setup(){
+    
+    var button = select('#submit');
+    button.mousePressed(url = api+input.value() + apiKey+units);
+   	input = select('#cidade');
+    }
+      
+
+	angular.module('iot', []).controller(
+			'sensor',
+			function($scope, $http) {
+				$scope.GetData = function() {
+					$http.get(url).then(function(response) {
+						$scope.sensor = response.data;
+						$scope.Plot(response.data);
+					var temperatura = weather.main.temp;
+					});
+					var temperatura1=weather.main.temp
+
+				};
+
+				$scope.SendData = function() {
+					var d = new Date();
+					var data = {
+						time : d.getFullYear() + "-"
+								+ ("00" + (d.getMonth() + 1)).slice(-2) + "-"
+								+ ("00" + (d.getDate())).slice(-2) + " "
+								+ d.toLocaleTimeString(),
+						temp : $scope.weather.main.temp,
+                        humidity : $scope.weather.main.humidity,
+                       
+					};
+
+				
+				};
+
+				
+			
+
+			});
+</script>
+</head>
+
+<body ng-app="iot" ng-controller="sensor" ng-init="GetData()">
+	<div class="container">
+		<h2 align=center>
+			<img
+				src="http://www.leopoldina.cefetmg.br/wp-content/uploads/sites/6/2016/11/logotipo_curso_internet_coisas_cor.png"
+				height="10%" width="10%"> <br>Exemplo Bootstrap -
+			AngularJs - Rest - Plotly
+		</h2>
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="form-group">
+					   <p>
+Cidade: <input id ="cidade" value="">
+<br/>
+<button id="submit">submit</button>
+
+</p>
+				</div>
+			
+			
+				<table class="table table-striped">
+					<thead class="thead-dark">
+						<tr>
+							<th>id</th>
+							<th>time</th>
+							<th>temp</th>
+                            <th>humidity</th>
+                            
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="s in sensor">
+							<td>{{s._id}}</td>
+							<td>{{s.time}}</td>
+							<td>{{s.temp}}</td>
+                            	<td>{{s.humidity}}</td>
+                                
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-sm-8">
+				  
+ 			
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
