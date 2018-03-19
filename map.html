@@ -9,12 +9,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<script src ="libraries/p5.js" type="text/javascript"> </script>
-<script src ="libraries/p5.dom.js" type="text/javascript"> </script>
-<script src ="libraries/p5.sound.js" type="text/javascript"> </script>
-
-<script src ="sketch.js" type="text/javascript"> </script>
-
 <!-- AnglularJs -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
@@ -38,42 +32,8 @@
 <!-- Plotly -->
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
-
-
 <script>
-var weather;
-
-var api='http://api.openweathermap.org/data/2.5/weather?q=';
-
-var apiKey=' &APPID=9e2818e4d3e02fd2c519fa8019721fb1';
-var units ='&units=metric';
-var input;
-	function setup(){
-    
-    createCanvas(20,20);
-    var button = select('#submit');
-    button.mousePressed(weatherAsk);
-   	input = select('#cidade');
-    }
-    
-    function weatherAsk(){
-     var url1 = api+input.value() + apiKey+units;
-    loadJSON(url1, gotData);
-    
-    }
-    function gotData(data1){
-    weather=data1;
-    }
-    function draw(){
-   
-       
-    }
-
-
-</script>
-
-<script>
-	 	var url = url1;
+	var url = 'http://api.openweathermap.org/data/2.5/weather?q=Leopoldina&APPID=9e2818e4d3e02fd2c519fa8019721fb1&units=metric';
 	angular.module('iot', []).controller(
 			'sensor',
 			function($scope, $http) {
@@ -81,7 +41,9 @@ var input;
 					$http.get(url).then(function(response) {
 						$scope.sensor = response.data;
 						$scope.Plot(response.data);
+					var temperatura = weather.main.temp;
 					});
+					var temperatura1=weather.main.temp
 
 				};
 
@@ -127,11 +89,9 @@ var input;
 
 			});
 </script>
-
 </head>
 
 <body ng-app="iot" ng-controller="sensor" ng-init="GetData()">
-
 	<div class="container">
 		<h2 align=center>
 			<img
@@ -175,24 +135,12 @@ var input;
 				</table>
 			</div>
 			<div class="col-sm-8">
-           
 				<div id="chart" class="responsive-plot"></div>
-                <p>
-Cidade:<input id ="cidade" value="Leopoldina">
-<br/>
-<button id="submit">submit</button>
-<input type="btn" class="btn" onclick="alert(weather.main.temp)"value="Temperatura">
-
-</p>
-
-                     <div id="myDiv"><!-- Plotly chart will be drawn inside this DIV --></div>
-
-
+ 				<input type="button" class="btn" onclick="alert(temp)"value="Temp">
+<input type="button" class="btn" onclick="alert(temperatura)"value="Temperatura">
+<input type="button" class="btn" onclick="alert(temperatura1)"value="Temperatura1">
 			</div>
 		</div>
 	</div>
-    
-     
 </body>
 </html>
-
