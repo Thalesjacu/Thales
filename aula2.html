@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>CSS Template</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- AnglularJs -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<!-- Plotly -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+
+<script>
+	var url = 'http://api.openweathermap.org/data/2.5/weather?q=Leopoldina&APPID=9e2818e4d3e02fd2c519fa8019721fb1&units=metric';
+	angular.module('iot', []).controller(
+			'sensor',
+			function($scope, $http) {
+				$scope.GetData = function() {
+					$http.get(url).then(function(response) {
+						$scope.sensor = response.data;
+						$scope.Plot(response.data);
+					});
+
+				};
+
+				$scope.SendData = function() {
+					var d = new Date();
+					var data = {
+						
+						temp : $scope.weather.main.temp
+					};
+
+					
+				});
+</script>
+
+<script>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style the header */
+.header {
+    background-color: #f1f1f1;
+    padding: 30px;
+    text-align: center;
+    font-size: 35px;
+}
+
+/* Create three equal columns that floats next to each other */
+.column {
+    float: left;
+    width: 33.33%;
+    padding: 10px;
+    height: 500px; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Style the footer */
+.footer {
+    background-color: #f1f1f1;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media (max-width: 600px) {
+    .column {
+        width: 100%;
+    }
+}
+
+.button {
+    background-color: #555555;
+    border: none;
+    color: white;
+    padding: 8px 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 8px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+.container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+.container img {
+    width: 100%;
+    height: auto;
+}
+
+.container .btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: #f1f1f1;
+    color: black;
+    font-size: 12px;
+    padding: 4px 1px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.container .btn:hover {
+    background-color: black;
+    color: white;
+}
+</style>
+</head>
+<body>
+
+<script>
+
+var umidade = 'Umidade';
+var tensao = 'Sobre Tensão';
+</script>
+
+
+<h2>Template usando CCS e HTML</h2>
+<p>Painel de controle para sensores e atuadores.</p>
+<p>Leitura de Temperatura, tensao e corrente.</p>
+<div class="header">
+  <h2>Painel de controle</h2>
+<p id="demo"></p>
+
+  <div class="column" style="background-color:rgb(255, 0, 10);">
+  <div class="container">
+  <img src="/images/termometro.jpg" alt="termometro" width="50" height="40">
+  <input type="btn" class="btn" onclick="alert(temp)"value="Temperatura">
+  </div>
+  
+  </div>
+  <div class="column" style="background-color:rgb(0 , 50, 200)	;">
+    <div class="container">
+   <img src="/images/umidade.jpg" alt="umidade" width="150" height="120">
+  <input type="btn" class="btn" onclick="alert(umidade)"value="Umidade">
+ </div>
+  </div>
+  <div class="column" style="background-color:rgb(255, 165, 0);">
+   <div class="container">
+     <img src="/images/tensao.jpg" alt="tensao" width="50" height="40">
+  <input type="btn" class="btn" onclick="alert(tensao)"value="tensao">
+  </div>
+</div>
+
+
+<div class="footer">
+  <p>Footer</p>
+   
+</div>
+
+
+
+
+
+
+
+
+</body>
+</html>
