@@ -56,7 +56,7 @@
 								+ d.toLocaleTimeString(),
 						temp : $scope.weather.main.temp,
                         humidity : $scope.weather.main.humidity,
-                        name: $scope.weather.name
+                        name: $scope.name
 					};
 
 					$http.post(url, data).then(function(response) {
