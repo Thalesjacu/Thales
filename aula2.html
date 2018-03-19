@@ -172,7 +172,7 @@ body {
 <body ng-app="iot" ng-controller="sensor" ng-init="GetData()">
 
 <script>
-
+var temperatura=temp;
 var umidade = 'Umidade';
 var tensao = 'Sobre Tensao';
 </script>
@@ -188,7 +188,7 @@ var tensao = 'Sobre Tensao';
   <div class="column" style="background-color:rgb(255, 0, 10);">
   <div class="container">
   <img src="/images/termometro.jpg" alt="termometro" width="50" height="40">
-  <input type="btn" class="btn" onclick="alert(temp)"value="Temperatura">
+  <input type="btn" class="btn" onclick="alert(temperatura)"value="Temperatura">
   </div>
   
   </div>
