@@ -37,6 +37,7 @@
 
 
 <script>
+var url ='http://api.openweathermap.org/data/2.5/weather?q=Leopoldina&APPID=9e2818e4d3e02fd2c519fa8019721fb1&units=metric';
 var weather;
 
 var api='http://api.openweathermap.org/data/2.5/weather?q=';
@@ -55,9 +56,7 @@ var input;
      var url = api+input.value() + apiKey+units;
     
     }
-    function gotData(data1){
-    weather=data1;
-    }
+   
 
 	angular.module('iot', []).controller(
 			'sensor',
@@ -92,27 +91,8 @@ var input;
 					});
 				};
 
-				$scope.Plot = function(data) {
-					var x = [], y = [];
-
-					data.forEach(function(item) {
-						x.push(item.humidity);
-						y.push(item.temp);
-					});
-
-					var charData = [ {
-						x : x,
-						y : y,
-						mode : 'lines+markers',
-						line : {
-							color : '#80CAF6'
-						}
-					} ];
-
-					var chart = document.getElementById('chart');
-
-					Plotly.newPlot(chart, charData);
-				};
+				
+			
 
 			});
 </script>
@@ -130,7 +110,7 @@ var input;
 			<div class="col-sm-4">
 				<div class="form-group">
 					   <p>
-Cidade: <input id ="cidade" value="Leopoldina">
+Cidade: <input id ="cidade" value="">
 <br/>
 <button id="submit">submit</button>
 
