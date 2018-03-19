@@ -32,8 +32,33 @@
 <!-- Plotly -->
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
+
+
+
+
 <script>
-	var url = 'http://api.openweathermap.org/data/2.5/weather?q=Leopoldina&APPID=9e2818e4d3e02fd2c519fa8019721fb1&units=metric';
+var weather;
+
+var api='http://api.openweathermap.org/data/2.5/weather?q=';
+
+var apiKey=' &APPID=9e2818e4d3e02fd2c519fa8019721fb1';
+var units ='&units=metric';
+var input;
+	function setup(){
+    
+    var button = select('#submit');
+    button.mousePressed(weatherAsk);
+   	input = select('#cidade');
+    }
+    
+    function weatherAsk(){
+     var url = api+input.value() + apiKey+units;
+    
+    }
+    function gotData(data1){
+    weather=data1;
+    }
+
 	angular.module('iot', []).controller(
 			'sensor',
 			function($scope, $http) {
@@ -56,7 +81,7 @@
 								+ d.toLocaleTimeString(),
 						temp : $scope.weather.main.temp,
                         humidity : $scope.weather.main.humidity,
-                        name: $scope.name
+                       
 					};
 
 					$http.post(url, data).then(function(response) {
@@ -129,7 +154,7 @@ Cidade: <input id ="cidade" value="Leopoldina">
 							<th>time</th>
 							<th>temp</th>
                             <th>humidity</th>
-                              <th>name</th>
+                            
 						</tr>
 					</thead>
 					<tbody>
@@ -138,7 +163,7 @@ Cidade: <input id ="cidade" value="Leopoldina">
 							<td>{{s.time}}</td>
 							<td>{{s.temp}}</td>
                             	<td>{{s.humidity}}</td>
-                                <td>{{s.name}}</td>
+                                
 						</tr>
 					</tbody>
 				</table>
