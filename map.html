@@ -55,7 +55,8 @@
 								+ ("00" + (d.getDate())).slice(-2) + " "
 								+ d.toLocaleTimeString(),
 						temp : $scope.weather.main.temp,
-                        humidity : $scope.weather.main.humidity
+                        humidity : $scope.weather.main.humidity,
+                        name: $scope.weather.name
 					};
 
 					$http.post(url, data).then(function(response) {
@@ -103,11 +104,14 @@
 		<div class="row">
 			<div class="col-sm-4">
 				<div class="form-group">
-					<label for="temp">Valor:</label> <input type="number"
-						class="form-control" name="temp" ng-model="temp"
-						placeholder="informe o valor" required />
+					   <p>
+Cidade: <input id ="cidade" value="Leopoldina">
+<br/>
+<button id="submit">submit</button>
+
+</p>
 				</div>
-				<button type="button" class="btn btn-primary" ng-click="SendData()">Enviar</button>
+			
 				<p></p>
 				<div data-ng-show="showSuccess" class="alert alert-success">
 					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Enviado
@@ -125,6 +129,7 @@
 							<th>time</th>
 							<th>temp</th>
                             <th>humidity</th>
+                              <th>name</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -133,20 +138,14 @@
 							<td>{{s.time}}</td>
 							<td>{{s.temp}}</td>
                             	<td>{{s.humidity}}</td>
+                                <td>{{s.name}}</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 			<div class="col-sm-8">
-				<div id="chart" class="responsive-plot"></div>
- 				<input type="button" class="btn" onclick="alert(temp)"value="Temp">
-<input type="button" class="btn" onclick="alert(#temperatura)"value="Temperatura">
-<input type="button" class="btn" onclick="alert(weather.main.temp)"value="Temperatura1">
-
-<div class="form-group">
-					<label for="humidity">Valor:</label> <input type="number"
-						class="form-control" name="humidity" ng-model="humidity"
-						placeholder="informe o valor" required />
+				  
+ 			
 				</div>
 			</div>
 		</div>
