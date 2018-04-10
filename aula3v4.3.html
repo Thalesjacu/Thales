@@ -1,11 +1,11 @@
-
-<!-- 
-	Exemplo pr�tico de Bootstrap - AngularJs - Rest - Plotly
+<!-- Pós Graduação Internet das Coisas - CEFET-MG
+	Disciplina: Programação para Sistemas de Computação
+	Thales Ribeiro Zangirolami
  -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<title>IoT - Thales</title>
+<title>IoT - CEFET-MG</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -32,32 +32,8 @@
 <!-- Plotly -->
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
-
-
-
-
 <script>
-var url ='http://api.openweathermap.org/data/2.5/weather?q=Leopoldina&APPID=9e2818e4d3e02fd2c519fa8019721fb1&units=metric';
-var weather;
-
-var api='http://api.openweathermap.org/data/2.5/weather?q=';
-
-var apiKey=' &APPID=9e2818e4d3e02fd2c519fa8019721fb1';
-var units ='&units=metric';
-var input;
-	function setup(){
-    
-    var button = select('#submit');
-    button.mousePressed(weatherAsk);
-   	input = select('#cidade');
-    }
-    
-    function weatherAsk(){
-     var url = api+input.value() + apiKey+units;
-    
-    }
-   
-
+	var url = 'http://35.199.76.183:3000/temperatura';
 	angular.module('iot', []).controller(
 			'sensor',
 			function($scope, $http) {
@@ -65,9 +41,7 @@ var input;
 					$http.get(url).then(function(response) {
 						$scope.sensor = response.data;
 						$scope.Plot(response.data);
-					var temperatura = weather.main.temp;
 					});
-					var temperatura1=weather.main.temp
 
 				};
 
@@ -78,10 +52,9 @@ var input;
 								+ ("00" + (d.getMonth() + 1)).slice(-2) + "-"
 								+ ("00" + (d.getDate())).slice(-2) + " "
 								+ d.toLocaleTimeString(),
-						temp : $scope.weather.main.temp,
-                        humidity : $scope.weather.main.humidity,
-                       
+						valor : $scope.temp
 					};
+					// {var que eu add no bb} : $scope{variavel do meu html}
 
 					$http.post(url, data).then(function(response) {
 						$scope.showSuccess = true;
@@ -91,8 +64,41 @@ var input;
 					});
 				};
 
-				
-			
+				$scope.Plot = function(data) {
+					var x = [], y = [];
+
+					data.forEach(function(item) {
+						x.push(item.time);
+						y.push(item.valor);
+					});
+
+					var charData = [ {
+						x : x,
+						y : y,
+						mode : 'lines+markers',
+						line : {
+							color : '#80CAF6'
+						}
+					} ];
+
+					var chart = document.getElementById('chart');
+
+					Plotly.newPlot(chart, charData);
+				};
+
+					$scope.ordenarPor = function(campo){
+						$scope.criterioDeOrde=campo;
+						$scope.direcaoDaOrd = !$scope.direcaoDaOrd;
+				};
+				$scope.apagarInfor = function(sensor){
+					$scope.sensor = sensor.filter(function(s)
+					{
+
+							if(!s.selecionado) 
+								return s;
+					});
+					console.log(dadosSelecionadas);
+				};
 
 			});
 </script>
@@ -103,20 +109,17 @@ var input;
 		<h2 align=center>
 			<img
 				src="http://www.leopoldina.cefetmg.br/wp-content/uploads/sites/6/2016/11/logotipo_curso_internet_coisas_cor.png"
-				height="10%" width="10%"> <br>Exemplo Bootstrap -
-			AngularJs - Rest - Plotly
+				height="10%" width="10%"> <br>Painel de Controle
 		</h2>
 		<div class="row">
 			<div class="col-sm-4">
 				<div class="form-group">
-					   <p>
-Cidade: <input id ="cidade" value="">
-<br/>
-<button id="submit">submit</button>
-
-</p>
+						<input class="form-control" type="text" ng-model="busca" placeholder="O que vc esta buscando?"/>
+					<label for="temp">Valor:</label> <input type="number"
+						class="form-control" name="valor" ng-model="temp"
+						placeholder="informe o valor" required />
 				</div>
-			
+				<button type="button" class="btn btn-primary" ng-click="SendData()">Enviar</button>
 				<p></p>
 				<div data-ng-show="showSuccess" class="alert alert-success">
 					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Enviado
@@ -130,28 +133,25 @@ Cidade: <input id ="cidade" value="">
 				<table class="table table-striped">
 					<thead class="thead-dark">
 						<tr>
+							<th></th>
 							<th>id</th>
-							<th>time</th>
-							<th>temp</th>
-                            <th>humidity</th>
-                            
+							<th>Data</th>
+							<th><a href="" ng-click="ordenarPor('valor')">Temperatura</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="s in sensor">
+						<tr ng-class="{'selecionado': s.selecionado}" ng-repeat="s in sensor | filter:busca | orderBy:criterioDeOrde:direcaoDaOrd | limitTo:5">
+							<th><input type="checkbox" ng-model="s.selecionado"/></th>
 							<td>{{s._id}}</td>
 							<td>{{s.time}}</td>
-							<td>{{s.temp}}</td>
-                            	<td>{{s.humidity}}</td>
-                                
+							<td>{{s.valor}}</td>
 						</tr>
 					</tbody>
 				</table>
+				<button class="btn btn-danger btn-block" ng-click="apagarInfor(sensor)"> Apagar Informacao</button>
 			</div>
 			<div class="col-sm-8">
-				  
- 			
-				</div>
+				<div id="chart" class="responsive-plot"></div>
 			</div>
 		</div>
 	</div>

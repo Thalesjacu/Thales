@@ -1,11 +1,11 @@
-
-<!-- 
-	Exemplo pr�tico de Bootstrap - AngularJs - Rest - Plotly
+<!-- Pós Graduação Internet das Coisas - CEFET-MG
+	Disciplina: Programação para Sistemas de Computação
+	Thales Ribeiro Zangirolami
  -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<title>IoT - Thales</title>
+<title>IoT - CEFET-MG</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -33,19 +33,18 @@
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 <script>
-	var url = 'http://api.openweathermap.org/data/2.5/weather?q=Leopoldina&APPID=9e2818e4d3e02fd2c519fa8019721fb1&units=metric', url1='http://35.199.76.183:3000/temperatura';
+
+	var api = 'http://35.199.76.183:3000/';
+	var url= 'api+city';
+	//var url = 'http://35.199.76.183:3000/temperatura';
 	angular.module('iot', []).controller(
 			'sensor',
 			function($scope, $http) {
 				$scope.GetData = function() {
 					$http.get(url).then(function(response) {
 						$scope.sensor = response.data;
-                   		$scope.Plot(response.data);
-                      	});
-                    $http.get(url1).then(function(response1) {
-						$scope.sensor = response.data;
-                   		$scope.Plot1(response.data);
-                      	});
+						$scope.Plot(response.data);
+					});
 
 				};
 
@@ -56,18 +55,11 @@
 								+ ("00" + (d.getMonth() + 1)).slice(-2) + "-"
 								+ ("00" + (d.getDate())).slice(-2) + " "
 								+ d.toLocaleTimeString(),
-						temp : $scope.weather.main.temp,
-                        humidity : $scope.weather.main.humidity
+						valor : $scope.temp
 					};
+					// {var que eu add no bb} : $scope{variavel do meu html}
 
 					$http.post(url, data).then(function(response) {
-						$scope.showSuccess = true;
-						$scope.GetData();
-					}, function(response) {
-						$scope.showError = true;
-					});
-                    
-                    $http.post(url1, data1).then(function(response) {
 						$scope.showSuccess = true;
 						$scope.GetData();
 					}, function(response) {
@@ -80,9 +72,8 @@
 
 					data.forEach(function(item) {
 						x.push(item.time);
-						y.push(item.temp);
+						y.push(item.valor);
 					});
-                    
 
 					var charData = [ {
 						x : x,
@@ -92,32 +83,34 @@
 							color : '#80CAF6'
 						}
 					} ];
-                    
-                    $scope.Plot = function(data1) {
-					var x = [], y = [];
-
-					data.forEach(function(item) {
-						x.push(item.time);
-						y.push(item.temp);
-					});
-                    
-
-					var charData1 = [ {
-						x : x,
-						y : y,
-						mode : 'lines+markers',
-						line : {
-							color : '#80CAF6'
-						}
-					} ];
 
 					var chart = document.getElementById('chart');
-                    var chart1 = document.getElementById('chart1');
 
-					Plotly.newPlot(chart1, charData1);
+					Plotly.newPlot(chart, charData);
 				};
-                
-                
+
+					$scope.ordenarPor = function(campo){
+						$scope.criterioDeOrde=campo;
+						$scope.direcaoDaOrd = !$scope.direcaoDaOrd;
+				};
+				$scope.apagarInfor = function(sensor){
+					$scope.sensor = sensor.filter(function(s)
+					{
+
+							if(!s.selecionado) 
+								return s;
+					});
+					console.log(dadosSelecionadas);
+				};
+				$scope.parametro=[{nome: "temperatura"},
+								{nome: "umidade"},
+				];
+				$scope.SeleParametro=function(sensor)
+				{
+					var city = s.param.nome;
+				};
+
+
 			});
 </script>
 </head>
@@ -127,14 +120,17 @@
 		<h2 align=center>
 			<img
 				src="http://www.leopoldina.cefetmg.br/wp-content/uploads/sites/6/2016/11/logotipo_curso_internet_coisas_cor.png"
-				height="10%" width="10%"> <br>Exemplo Bootstrap -
-			AngularJs - Rest - Plotly
+				height="10%" width="10%"> <br>Painel de Controle
 		</h2>
 		<div class="row">
 			<div class="col-sm-4">
 				<div class="form-group">
+						<input class="form-control" type="text" ng-model="busca" placeholder="O que vc esta buscando?"/>
+						<select class="form-control" ng-model="s.param" ng-options="param.nome for param in parametro">
+			<option value="">Selecione o Parametro</option>
+		</select>
 					<label for="temp">Valor:</label> <input type="number"
-						class="form-control" name="temp" ng-model="temp"
+						class="form-control" name="valor" ng-model="temp"
 						placeholder="informe o valor" required />
 				</div>
 				<button type="button" class="btn btn-primary" ng-click="SendData()">Enviar</button>
@@ -151,38 +147,25 @@
 				<table class="table table-striped">
 					<thead class="thead-dark">
 						<tr>
+							<th></th>
 							<th>id</th>
-							<th>time</th>
-							<th>temp</th>
+							<th>Data</th>
+							<th><a href="" ng-click="ordenarPor('valor')">Parametro</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="s in sensor">
+						<tr ng-class="{'selecionado': s.selecionado}" ng-repeat="s in sensor | filter:busca | orderBy:criterioDeOrde:direcaoDaOrd | limitTo:5">
+							<th><input type="checkbox" ng-model="s.selecionado"/></th>
 							<td>{{s._id}}</td>
 							<td>{{s.time}}</td>
-							<td>{{s.temp}}</td>
+							<td>{{s.valor}}</td>
 						</tr>
 					</tbody>
 				</table>
+				<button class="btn btn-danger btn-block" ng-click="apagarInfor(sensor)"> Apagar Informacao</button>
 			</div>
 			<div class="col-sm-8">
-            <div id="chart" class="responsive-plot"></div>
-            <div id="chart1" class="responsive-plot"></div>
-             <div id="myDiv"><!-- Plotly chart will be drawn inside this DIV --></div>
-            	 <script>
-   
-  var CharData1 = [{
-  x: ['temperatura', 'umidade'],
-  y: [temp, humidity],
-  type: 'bar'
-}];
-
-Plotly.newPlot('myDiv', CharData1);
-</script>
-            
-            
 				<div id="chart" class="responsive-plot"></div>
-                <div id="chart1" class="responsive-plot"></div>
 			</div>
 		</div>
 	</div>

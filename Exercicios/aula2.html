@@ -1,4 +1,4 @@
-<html ng-app="Painel de Controle">
+<html ng-app="Lista">
 <head>
 <script src="lib/angular.js"></script>
 
@@ -85,14 +85,14 @@
 				<th>Humidade</th>
 				<th>UF</th>
 			</tr>
-			<!-- busca as informações em scope.cidades -->
+			<!-- busca as informaÃ§Ãµes em scope.cidades -->
 
-			<!-- também pode filtrar os dados por ordem e limita apenas 10 cidades(apenas oculta)-->
+			<!-- tambÃ©m pode filtrar os dados por ordem e limita apenas 10 cidades(apenas oculta)-->
 			<tr ng-class="{'selecionado': inf.selecionado}" ng-repeat="inf in cidades | filter:busca | orderBy:criterioDeOrde:direcaoDaOrd | limitTo:10">
 				<th><input type="checkbox" ng-model="inf.selecionado"/></th>
 				<td>{{inf.data | date:'dd/MM/yyyy HH:mm'}}</td>
 				<td>{{inf.cidade}}</td>
-				<td>{{inf.temperatura +'°'}}</td>
+				<td>{{inf.temperatura +'Â°'}}</td>
 				<td>{{inf.umidade +'%'}}</td>
 				<td>{{inf.reg.codigo}}</td>
 			</tr>

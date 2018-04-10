@@ -37,20 +37,7 @@
 
 
 <script>
-var url ='http://api.openweathermap.org/data/2.5/weather?q=Leopoldina&APPID=9e2818e4d3e02fd2c519fa8019721fb1&units=metric';
-var weather;
-
-var api='http://api.openweathermap.org/data/2.5/weather?q=';
-
-var apiKey=' &APPID=9e2818e4d3e02fd2c519fa8019721fb1';
-var units ='&units=metric';
-var input;
-	function setup(){
-    
-    var button = select('#submit');
-    button.mousePressed(url = api+input.value() + apiKey+units);
-   	input = select('#cidade');
-    }
+  
       
 
 	angular.module('iot', []).controller(
@@ -60,9 +47,8 @@ var input;
 					$http.get(url).then(function(response) {
 						$scope.sensor = response.data;
 						$scope.Plot(response.data);
-					var temperatura = weather.main.temp;
-					});
-					var temperatura1=weather.main.temp
+						});
+					
 
 				};
 
@@ -75,14 +61,53 @@ var input;
 								+ d.toLocaleTimeString(),
 						temp : $scope.weather.main.temp,
                         humidity : $scope.weather.main.humidity,
+                        cidade : $scope.cidade
                        
-					};
+         					};
+         					var url ='http://api.openweathermap.org/data/2.5/weather?q=Barbacena&APPID=9e2818e4d3e02fd2c519fa8019721fb1&units=metric';
+var api='http://api.openweathermap.org/data/2.5/weather?q=';
+var apiKey=' &APPID=9e2818e4d3e02fd2c519fa8019721fb1';
+var units ='&units=metric';
+var input;
+	function setup(){
+    
+    var button = select('#submit');
+    button.mousePressed(url = api+input.value() + apiKey+units);
+   	input = select('#cidade');
+    }
 
 				
+				$http.post(url, data).then(function(response) {
+						$scope.showSuccess = true;
+						$scope.GetData();
+						$scope.weather.main.temp;
+						$scope.weather.main.humidity=humidity;
+					}, function(response) {
+						$scope.showError = true;
+					});
 				};
 
-				
-			
+				$scope.Plot = function(data) {
+					var x = [], y = [];
+
+					data.forEach(function(item) {
+						x.push(item.humidity);
+						y.push(item.temp);
+					});
+
+					var charData = [ {
+						x : x,
+						y : y,
+						mode : 'lines+markers',
+						line : {
+							color : '#80CAF6'
+						}
+					} ];
+
+					var chart = document.getElementById('chart');
+
+					Plotly.newPlot(chart, charData);
+				};
 
 			});
 </script>
@@ -95,6 +120,7 @@ var input;
 				src="http://www.leopoldina.cefetmg.br/wp-content/uploads/sites/6/2016/11/logotipo_curso_internet_coisas_cor.png"
 				height="10%" width="10%"> <br>Exemplo Bootstrap -
 			AngularJs - Rest - Plotly
+			{{s.Temperatura}}
 		</h2>
 		<div class="row">
 			<div class="col-sm-4">
@@ -130,8 +156,13 @@ Cidade: <input id ="cidade" value="">
 				</table>
 			</div>
 			<div class="col-sm-8">
-				  
- 			
+				<div class="form-group">
+					<label for="cidade">Valor:</label> <input type="string"
+						class="form-control" name="cidade" ng-model="cidade"
+						placeholder="informe a Temperatura" required />
+				</div>
+								  <button type="button" class="btn btn-primary" ng-click="setup()">Enviar</button>
+ 						<div id="chart" class="responsive-plot"></div>
 				</div>
 			</div>
 		</div>

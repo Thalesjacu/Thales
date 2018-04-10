@@ -1,0 +1,156 @@
+<html ng-app="Lista">
+<head>
+<script src="lib/angular.js"></script>
+
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<!-- Plotly -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+
+	<style>
+	.table{margin-top: 20px;}
+	.selecionado{background-color: yellow;}
+	
+    </style>
+
+	<script >
+		var url = 'http://35.199.76.183:3000/temperatura';
+		//var url = 'http://api.openweathermap.org/data/2.5/weather?q=Leopoldina&APPID=9e2818e4d3e02fd2c519fa8019721fb1'
+	angular.module('Lista', []).controller(
+			'ListaCtrl',
+			function($scope, $http) {
+				$scope.GetData = function() {
+					$http.get(url).then(function(response) {
+						$scope.ListaCtrl = response.data;
+						$scope.Plot(response.data);
+					});
+
+				};
+
+				$scope.SendData = function() {
+					var d = new Date();
+					var data = {
+						time : d.getFullYear() + "-"
+								+ ("00" + (d.getMonth() + 1)).slice(-2) + "-"
+								+ ("00" + (d.getDate())).slice(-2) + " "
+								+ d.toLocaleTimeString(),
+						valor : $scope.valor,
+						temp : $scope.temp,
+						humidity : $scope.humidity
+					};
+
+					$http.post(url, data).then(function(response) {
+						$scope.showSuccess = true;
+						$scope.GetData();
+					}, function(response) {
+						$scope.showError = true;
+					});
+				};
+
+				$scope.Plot = function(data) {
+					var x = [], y = [];
+
+					data.forEach(function(item) {
+						x.push(item.time);
+						y.push(item.temp);
+					});
+
+					var charData = [ {
+						x : x,
+						y : y,
+						mode : 'lines+markers',
+						line : {
+							color : '#80CAF6'
+						}
+					} ];
+
+					var chart = document.getElementById('chart');
+
+					Plotly.newPlot(chart, charData);
+				};
+
+			
+			
+				//retorna so as cidades selecionadasss
+				$scope.apagarInfor = function(GetData){
+					$scope.ListaCtrl = GetData.filter(function(inf)
+					{
+
+							if(!inf.selecionado) 
+								return inf;
+					});
+					console.log(GetDataSelecionadas);
+				};
+				//determina a ordem : verdadeiro ou falso
+				$scope.ordenarPor = function(campo){
+					$scope.criterioDeOrde=campo;
+					$scope.direcaoDaOrd = !$scope.direcaoDaOrd;
+				};
+
+		});
+
+	</script>
+</head>
+
+<body ng-controller="ListaCtrl">
+	
+	
+		<div class="container">
+			<div class="row">
+			<div class="col-sm-4">
+		      	<h3 align = "center">{{app}}</h3>
+		      	<input class="form-control" type="text" ng-model="busca" placeholder="O que vc esta buscando?"/>
+
+		<table class="table table-striped">
+			<tr>
+				<th></th>
+				<th><a href="" ng-click="ordenarPor('temperatura')">Temperatura</a></th>
+				<th>Humidade</th>
+			</tr>
+			<!-- busca as informações em scope.cidades -->
+
+			<!-- também pode filtrar os dados por ordem e limita apenas 10 cidades(apenas oculta)-->
+			<tr ng-class="{'selecionado': inf.selecionado}" ng-repeat="inf in ListaCtrl | filter:busca | orderBy:criterioDeOrde:direcaoDaOrd | limitTo:10">
+				<th><input type="checkbox" ng-model="inf.selecionado"/></th>
+				<td>{{inf.valor}}</td>
+				<td>{{inf.temp +'°'}}</td>
+				<td>{{inf.humidity +'%'}}</td>
+			</tr>
+
+		</table>
+		<hr/>
+		<!-- inf.cidade serve p/ simplificar o scope.adicionarCidade, caso contrario o nomes ficariam grandes) -->
+		<input class ="form-control" type="text" ng-model="inf.cidade" placeholder="Cidade" />
+		<input class ="form-control" type="text" ng-model="inf.valor" placeholder="Temperatura" />
+		<input class ="form-control" type="text" ng-model="inf.temp" placeholder="Temperatura" />
+		<input class ="form-control" type="text" ng-model="inf.humidity" placeholder="Umidade" />
+		
+		<!-- ng-disable colocar o botao inoperante -->
+		<button class="btn btn-primary btn-block" ng-click="GetData(inf)" ng-disabled="!inf.cidade || !inf.temp || !inf.humidity"> Enviar</button>
+		<button class="btn btn-danger btn-block" ng-click="apagarInfor(ListaCtrl)"> Apagar Informacao</button>
+
+		</div>
+			<div class="col-sm-8">
+				<div id="chart" class="responsive-plot"></div>
+			</div>
+	</div>
+	</div>
+	
+</body>
+</html>
