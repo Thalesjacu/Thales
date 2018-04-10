@@ -1,105 +1,7 @@
-
-<!DOCTYPE html>
-<html lang="en">
+<html ng-app="Lista">
 <head>
-<title>CSS Template</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-* {
-    box-sizing: border-box;
-}
+<script src="lib/angular.js"></script>
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-/* Style the header */
-.header {
-    background-color: #f1f1f1;
-    padding: 30px;
-    text-align: center;
-    font-size: 35px;
-}
-
-/* Create three equal columns that floats next to each other */
-.column {
-    float: left;
-    width: 33.33%;
-    padding: 10px;
-    height: 500px; /* Should be removed. Only for demonstration */
-}
-
-/* Clear floats after the columns */
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
-/* Style the footer */
-.footer {
-    background-color: #f1f1f1;
-    padding: 10px;
-    text-align: center;
-}
-
-/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
-@media (max-width: 600px) {
-    .column {
-        width: 100%;
-    }
-}
-
-.button {
-    background-color: #555555;
-    border: none;
-    color: white;
-    padding: 8px 5px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 8px;
-    margin: 4px 2px;
-    cursor: pointer;
-}
-.container {
-    position: relative;
-    width: 100%;
-    max-width: 400px;
-}
-
-.container img {
-    width: 100%;
-    height: auto;
-}
-
-.container .btn {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    background-color: #f1f1f1;
-    color: black;
-    font-size: 12px;
-    padding: 4px 1px;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-    text-align: center;
-}
-
-.container .btn:hover {
-    background-color: black;
-    color: white;
-}
-</style>
-
-
-<!-- AnglularJs -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
 
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
@@ -120,117 +22,99 @@ body {
 <!-- Plotly -->
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
-<script>
-	var url = 'http://api.openweathermap.org/data/2.5/weather?q=Leopoldina&APPID=9e2818e4d3e02fd2c519fa8019721fb1&units=metric';
-	angular.module('iot', []).controller(
-			'sensor',
-			function($scope, $http) {
-				$scope.GetData = function() {
-					$http.get(url).then(function(response) {
-						$scope.sensor = response.data;
-						$scope.Plot(response.data);
-					});
-					var data = {temp:$scope.weather.main.temp}
-                   				};
 
-				$scope.SendData = function() {
-					var d = new Date();
-										
-					};
+	<style>
+	.table{margin-top: 20px;}
+	.selecionado{background-color: yellow;}
+	
+    </style>
 
-					$http.post(url, data).then(function(response) {
-						$scope.showSuccess = true;
-						$scope.GetData();
-					}, function(response) {
-						$scope.showError = true;
+	<script >
+		angular.module("Lista", []);
+		angular.module("Lista").controller("ListaCtrl", function($scope){
+				$scope.app="Painel de Controle";
+				$scope.cidades=[
+				{data: new Date(), cidade: "Leopoldina", temperatura: "32", umidade:"95"},
+				{data: new Date(), cidade: "Juiz de Fora", temperatura: "32", umidade:"90"},
+				{data: new Date(), cidade: "Cataguases", temperatura: "32", umidade:"95"}
+				];
+				$scope.regiao=[{nome: "Minas Gerais", codigo: "MG"},
+								{nome: "Sao Paulo", codigo: "SP"},
+				];
+				$scope.adicionarCidade= function(inf){
+					inf.data = new Date();
+					$scope.cidades.push(angular.copy(inf));
+					delete $scope.inf;
+				};
+				//retorna so as cidades selecionadasss
+				$scope.apagarInfor = function(cidades){
+					$scope.cidades = cidades.filter(function(inf)
+					{
+
+							if(!inf.selecionado) 
+								return inf;
 					});
+					console.log(cidadesSelecionadas);
+				};
+				//determina a ordem : verdadeiro ou falso
+				$scope.ordenarPor = function(campo){
+					$scope.criterioDeOrde=campo;
+					$scope.direcaoDaOrd = !$scope.direcaoDaOrd;
 				};
 
-				$scope.Plot = function(data) {
-					var x = [], y = [];
+		});
 
-					data.forEach(function(item) {
-						x.push(item.time);
-						y.push(item.temp);
-					});
-
-					
-
-					var chart = document.getElementById('chart');
-
-					Plotly.newPlot(chart, charData);
-				};
-
-			});
-</script>
+	</script>
 </head>
-<body ng-app="iot" ng-controller="sensor" ng-init="GetData()">
 
-<script>
+<body ng-controller="ListaCtrl">
+	
+	
+		<div class="container">
+			<div class="row">
+			<div class="col-sm-4">
+		      	<h3 align = "center">{{app}}</h3>
+		      	<input class="form-control" type="text" ng-model="busca" placeholder="O que vc esta buscando?"/>
 
-var umidade = 'Umidade';
-var tensao = 'Sobre Tensao';
-</script>
+		<table class="table table-striped">
+			<tr>
+				<th></th>
+				<th><a href="" ng-click="ordenarPor('data')">Data</a></th>
+				<th>Cidade</th>
+				<th><a href="" ng-click="ordenarPor('temperatura')">Temperatura</a></th>
+				<th>Humidade</th>
+				<th>UF</th>
+			</tr>
+			<!-- busca as informações em scope.cidades -->
 
+			<!-- também pode filtrar os dados por ordem e limita apenas 10 cidades(apenas oculta)-->
+			<tr ng-class="{'selecionado': inf.selecionado}" ng-repeat="inf in cidades | filter:busca | orderBy:criterioDeOrde:direcaoDaOrd | limitTo:10">
+				<th><input type="checkbox" ng-model="inf.selecionado"/></th>
+				<td>{{inf.data | date:'dd/MM/yyyy HH:mm'}}</td>
+				<td>{{inf.cidade}}</td>
+				<td>{{inf.temperatura +'°'}}</td>
+				<td>{{inf.umidade +'%'}}</td>
+				<td>{{inf.reg.codigo}}</td>
+			</tr>
 
-<h2>Template usando CCS e HTML</h2>
-<p>Painel de controle para sensores e atuadores.</p>
-<p>Leitura de Temperatura, tensao e corrente.</p>
-<div class="header">
-  <h2>Painel de controle</h2>
-<p id="demo"></p>
+		</table>
+		<hr/>
+		<!-- inf.cidade serve p/ simplificar o scope.adicionarCidade, caso contrario o nomes ficariam grandes) -->
+		<input class ="form-control" type="text" ng-model="inf.cidade" placeholder="Cidade" />
+		<input class ="form-control" type="text" ng-model="inf.temperatura" placeholder="Temperatura" />
+		<input class ="form-control" type="text" ng-model="inf.umidade" placeholder="Umidade" />
+				<select class="form-control" ng-model="inf.reg" ng-options="reg.nome for reg in regiao">
+			<option value="">Selecione o Estado</option>
+		</select>
+		<!-- ng-disable colocar o botao inoperante -->
+		<button class="btn btn-primary btn-block" ng-click="adicionarCidade(inf)" ng-disabled="!inf.cidade || !inf.temperatura || !inf.umidade"> Enviar</button>
+		<button class="btn btn-danger btn-block" ng-click="apagarInfor(cidades)"> Apagar Informacao</button>
 
-  <div class="column" style="background-color:rgb(255, 0, 10);">
-  <div class="container">
-  <img src="/images/termometro.jpg" alt="termometro" width="50" height="40">
-  <input type="btn" class="btn" onclick="alert(temp)"value="Temperatura">
-  </div>
-  
-  </div>
-  <div class="form-group">
-					<label for="temp">Valor:</label> <input type="number"
-						class="form-control" name="temp" ng-model="temp"
-						placeholder="informe o valor" required />
-				</div>
-				<button type="button" class="btn btn-primary" ng-click="SendData()">Enviar</button>
-				<p></p>
-				<div data-ng-show="showSuccess" class="alert alert-success">
-					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Enviado
-						com Sucesso!</strong>
-				</div>
-				<div data-ng-show="showError" class="alert alert-danger">
-					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Erro
-						ao Enviar!</strong>
-				</div>
-				<p></p>
-				
+		</div>
+			<div class="col-sm-8">
 			</div>
-  
-  <div class="column" style="background-color:rgb(0 , 50, 200)	;">
-    <div class="container">
-   <img src="/images/umidade.jpg" alt="umidade" width="150" height="120">
-  <input type="btn" class="btn" onclick="alert(umidade)"value="Umidade">
- </div>
-  </div>
-  <div class="column" style="background-color:rgb(255, 165, 0);">
-   <div class="container">
-     <img src="/images/tensao.jpg" alt="tensao" width="50" height="40">
-  <input type="btn" class="btn" onclick="alert(tensao)"value="tensao">
-  </div>
-</div>
-
-
-<div class="footer">
-  <p>Footer</p>
-   
-</div>
-
-
-
-
-
-
-
-
+	</div>
+	</div>
+	
 </body>
 </html>
