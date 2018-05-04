@@ -40,9 +40,9 @@ client.on('message', function (topic, message) { //aguarda mensagem do tópico a
 
 	  var d = new Date();
 	 
-	  temperatura.time = d.getFullYear() + "-"
-		+ ("00" + (d.getMonth() + 1)).slice(-2) + "-"
-		+ ("00" + (d.getDate())).slice(-2) + " "
+	  temperatura.time = ("00" + (d.getDate())).slice(-2)+ "-"
+		+ ("00" + SimpleDateFormat((d.getMONTH() + 1))).slice(-2) + "-"
+		+  d.getFullYear()+ " "
 		+ d.toLocaleTimeString();
 	 
 	  temperatura.valor = payload;
@@ -213,3 +213,4 @@ app.use('/', router);
 
 app.listen(3000);
 console.log('Servidor executando.');
+
