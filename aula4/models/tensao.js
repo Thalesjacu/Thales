@@ -9,13 +9,13 @@ var Schema = mongoose.Schema;
 var autoIncrement = require('mongoose-auto-increment'); 
 var mongooseApiQuery = require('mongoose-api-query'); 
 
-var TemperaturaSchema = new Schema({
+var TensaoSchema = new Schema({
     time: String,
     valor: String
 });
 
 autoIncrement.initialize(mongoose.connection);
-TemperaturaSchema.plugin(autoIncrement.plugin, 'temperatura');
-TemperaturaSchema.plugin(mongooseApiQuery); 
-module.exports = mongoose.model('temperatura', TemperaturaSchema);
+TensaoSchema.plugin(autoIncrement.plugin, 'tensao');
+TensaoSchema.plugin(mongooseApiQuery); 
+module.exports = mongoose.model('tensao', TensaoSchema);
 
