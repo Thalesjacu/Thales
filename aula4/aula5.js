@@ -134,7 +134,7 @@ router.route('/temperatura/q').get(function(req, res) {
 	});
 	console.log('GET /temperatura/q');
 });
-//GET /temperatura
+//GET /tensao
 router.route('/tensao').get(function(req, res) {
 	var limit = parseInt(req.query._limit) || 20;
 	var valor = req.query.valor || {$gte: 0};
@@ -270,6 +270,23 @@ router.route('/temperatura/:id').put(function(req, res) {
 		});
 	});
 	console.log('PUT /temperatura/:id');
+});
+//PUT /tensao/:id {time:"..",valor:"..."}
+router.route('/tensao/:id').put(function(req, res) {
+	Tensao.findById(req.params.id, function(error, tensao) {
+		if(error)
+			res.send(error);
+
+		tensao.time = req.body.time;
+		tensao.valor = req.body.valor;
+
+		tensao.save(function(error) {
+			if(error)
+				res.send(error);
+			res.json({ message: 'Tensao Atualizado!' });
+		});
+	});
+	console.log('PUT /tensao/:id');
 });
 
 //DELETE /temperatura/:id
