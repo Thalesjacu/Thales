@@ -8,6 +8,7 @@ var express = require('express');
 var cors = require('cors'); 
 var bodyParser = require('body-parser'); 
 var Temperatura = require('./models/temperatura'); // Modelos definidos
+var Tensao = require('./models/tensao');
 var mongoose = require('mongoose');
 var mqtt = require('mqtt');
 
@@ -26,7 +27,8 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json()); // configurações do body parser
 
 client.on('connect', function () {
-   	 client.subscribe('topic-iot-cefetmg'); //conecta e assina o tópico MQTT
+   	  client.subscribe('topic-iot-cefetmg/temperatura');
+   	  client.subscribe('topic-iot-cefetmg/tensao');//conecta e assina o tópico MQTT
 });
 
 
@@ -35,7 +37,8 @@ client.on('message', function (topic, message) { //aguarda mensagem do tópico a
 	  console.log(message.toString());
 	  var payload       = message.toString();
 	  var message_topic = topic.toString();
-	  
+	  if(message_topic=="topic-iot-cefetmg/temperatura")
+	  {
 	  var temperatura = new Temperatura();
 
 	  var d = new Date();
@@ -52,7 +55,30 @@ client.on('message', function (topic, message) { //aguarda mensagem do tópico a
 				console.log(error);
 
 			console.log("Inserido com Sucesso!")
+
 		});
+	}
+	 else if(message_topic=="topic-iot-cefetmg/tensao")
+	  {
+	  var tensao = new Tensao();
+
+	  var d = new Date();
+	 
+	 tensao.time = d.getFullYear() + "-"
+		+ ("00" + (d.getMonth() + 1)).slice(-2) + "-"
+		+ ("00" + (d.getDate())).slice(-2) + " "
+		+ d.toLocaleTimeString();
+	 
+	  tensao.valor = payload;
+
+		tensao.save(function(error) { // insere no db
+			if (error)
+				console.log(error);
+
+			console.log("Inserido com Sucesso!")
+
+		});
+	}
 	
 });
 
@@ -107,6 +133,34 @@ router.route('/temperatura/q').get(function(req, res) {
 		res.json(temperatura);
 	});
 	console.log('GET /temperatura/q');
+});
+//GET /temperatura
+router.route('/tensao').get(function(req, res) {
+	var limit = parseInt(req.query._limit) || 20;
+	var valor = req.query.valor || {$gte: 0};
+	var sort = parseInt(req.query._sort) || -1;
+	Tensao.
+	find().
+	where({ valor: valor }).
+	limit(limit).
+	sort({ _id: sort })
+	.exec(function(err, tensao) {
+		if (err)
+			res.send(err);
+
+		res.json(tensao);
+	});
+	console.log('GET /tensao');
+});
+
+router.route('/tensao/q').get(function(req, res) {
+	Tensao.apiQuery(req.query).exec(function(err, tensao) {
+		if (err)
+			res.send(err);
+
+		res.json(tensao);
+	});
+	console.log('GET /tensao/q');
 });
 
 //GET /temperatura/recente
@@ -177,6 +231,27 @@ router.route('/temperatura').post(function(req, res) {
 	});
 		
 	console.log('POST /temperatura');
+});
+
+/* POST /tensao {time:"..",valor:"..."} */
+router.route('/tensao').post(function(req, res) {
+	var tensao = new Tensao();
+
+	tensao.time = req.body.time;
+	tensao.valor = req.body.valor;
+
+	client.publish('topic-iot-cefetmg/tensao',  tensao.valor); //MQTT: publica o valor da temperatura no Tópico
+	
+	tensao.save(function(error) {
+		if (error)
+			res.send(error);
+
+		res.json({
+			message : 'tensao inserida e publicada!'
+		});
+	});
+		
+	console.log('POST /tensao');
 });
 
 //PUT /temperatura/:id {time:"..",valor:"..."}
