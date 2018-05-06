@@ -2,6 +2,7 @@
 	Disciplina: Programação para Sistemas de Computação
 	Thales Ribeiro Zangirolami
 	Michel Silva Maldonado
+	Pagina WEB
  -->
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -139,6 +140,7 @@
 							<th>Data</th>
 							<th><a href="" ng-click="ordenarPor('valor')">Temperatura</th>
 						</tr>
+							<th>Tensao</th>
 					</thead>
 					<tbody>
 						<tr ng-class="{'selecionado': s.selecionado}" ng-repeat="s in sensor | filter:busca | orderBy:criterioDeOrde:direcaoDaOrd | limitTo:5">
