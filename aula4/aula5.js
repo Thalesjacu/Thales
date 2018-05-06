@@ -1,4 +1,7 @@
 /**
+Broken MQTT 
+Thales Ribeiro
+Michel Maldonado
  * Pós Graduação Internet das Coisas - CEFET-MG Disciplina: Programação para
  * Sistemas de Computação Exemplo prático de RESTFul com NodeJS e MongoDB
  */
