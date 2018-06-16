@@ -25,8 +25,8 @@ app.get('/', function (req, res) {
 		res.end('welcome to the session demo. refresh!')
 	  }
   //} else {
-	    res.send('you must login first');
-  }
+	//    res.send('you must login first');
+  //}
 });
 
 app.post('/login', upload.array(), function (req, res, next) {
