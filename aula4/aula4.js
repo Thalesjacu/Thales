@@ -64,7 +64,7 @@ router.route('/temperatura').post(function(req, res) {
 
 	temperatura.time = req.body.time;
 	temperatura.valor = req.body.valor;
-	refrigerador='refri1';
+	//temperatura.refrigerador=req.body.refrigerador;
 	temperatura.save(function(error) {
 		if (error)
 			res.send(error);

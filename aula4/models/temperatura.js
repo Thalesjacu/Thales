@@ -12,7 +12,7 @@ var mongooseApiQuery = require('mongoose-api-query');
 var TemperaturaSchema = new Schema({
     time: String,
     valor: String,
-    refrigerador: String
+    refrigerador: 'refir1'
 });
 
 autoIncrement.initialize(mongoose.connection);
