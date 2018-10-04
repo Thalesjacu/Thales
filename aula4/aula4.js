@@ -10,6 +10,7 @@ var bodyParser = require('body-parser');
 var Temperatura = require('./models/temperatura'); // Modelos definidos
 var mongoose = require('mongoose');
 
+var refrigerador;
 var url = "mongodb://localhost:27017/sensor";
 mongoose.connect(url);
 
@@ -63,7 +64,7 @@ router.route('/temperatura').post(function(req, res) {
 
 	temperatura.time = req.body.time;
 	temperatura.valor = req.body.valor;
-
+	refrigerador='refri1';
 	temperatura.save(function(error) {
 		if (error)
 			res.send(error);
